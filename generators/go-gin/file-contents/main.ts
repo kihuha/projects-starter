@@ -1,4 +1,4 @@
-export const goMainContent = `package main
+export const goMainContent = (routerGroups: string = "") => `package main
 
 import (
 	"net/http"
@@ -14,7 +14,7 @@ func main() {
 			"message": "Hello there",
 		})
 	})
-
+${routerGroups}
 	server.Run()
 }
 `;

@@ -1,4 +1,6 @@
-export const expressMainContent = () => `import express from "express";
+export const expressMainContent = (
+  routerGroups: string[] = []
+) => `import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
@@ -6,6 +8,19 @@ import morgan from "morgan";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import createError from "http-errors";
+
+// import controllers
+${
+  routerGroups.length > 0
+    ? "\n" +
+      routerGroups
+        .map(
+          (group) =>
+            `import ${group}Controller from "./controllers/${group}Controller";`
+        )
+        .join("\n")
+    : ""
+}
 
 const app = express();
 
@@ -44,7 +59,15 @@ app.get("/health", (_req, res) => {
   });
 });
 
-app.use(function (req, res, next) {
+
+// use controllers
+${
+  routerGroups.length > 0
+    ? routerGroups
+        .map((group) => `app.use("/${group}", ${group}Controller);`)
+        .join("\n") + "\n\n"
+    : ""
+}app.use(function (_req, _res, next) {
   next(createError(404));
 });
 
