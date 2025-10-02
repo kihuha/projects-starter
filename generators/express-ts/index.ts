@@ -10,7 +10,7 @@ import { tsConfig, expressDb, expressCache } from "./file-contents/utils";
 const deps =
   "compression cookie-parser cors express express-rate-limit express-winston helmet http-errors morgan redis typescript winston zod";
 const devDeps =
-  "@types/compression @types/cookie-parser @types/cors @types/express @types/morgan @types/node @types/pg-promise nodemon ts-node";
+  "@types/compression @types/cookie-parser @types/cors @types/express @types/morgan @types/node @types/pg-promise @types/helmet @types/express-rate-limit nodemon ts-node";
 
 export const generateExpressTs = (
   dirPath: string,

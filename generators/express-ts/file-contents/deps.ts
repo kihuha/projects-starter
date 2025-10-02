@@ -4,7 +4,7 @@ export const packageJsonFile = (name: string) => `{
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/main.ts"
+    "dev": "nodemon main.ts"
   },
   "dependencies": {
 
