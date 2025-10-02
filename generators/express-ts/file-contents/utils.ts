@@ -2,15 +2,16 @@ export const tsConfig = `{
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./",
-    "outDir": "./dist",
+    // "rootDir": "./src",
+    // "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
+    // For nodejs:
+    // "lib": ["esnext"],
     "types": ["node"],
-    "lib": ["esnext"],
 
     // Other Outputs
     "sourceMap": true,
@@ -36,9 +37,7 @@ export const tsConfig = `{
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true
-  },
-  "include": ["script.ts"],
-  "exclude": ["node_modules", "dist"]
+  }
 }
 `;
 

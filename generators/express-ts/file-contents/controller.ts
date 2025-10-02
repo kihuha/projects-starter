@@ -16,11 +16,6 @@ const router = Router();
 
 ${routes
   .map((routeInfo) => {
-    const functionName =
-      routeInfo.operationId ||
-      `${routeInfo.method.toLowerCase()}${
-        group.charAt(0).toUpperCase() + group.slice(1)
-      }`;
     const summary = routeInfo.summary ? `\n// ${routeInfo.summary}` : "";
 
     // Remove the group prefix from the route to avoid double paths
