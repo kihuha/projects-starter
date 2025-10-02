@@ -45,7 +45,8 @@ export const expressDb = `import pgPromise from "pg-promise";
 
 const pgp = pgPromise({});
 
-const db = pgp("postgres://username:password@host:port/database");
+// It's recommended to store your database connection string in an environment variable for security.
+const db = pgp(process.env.DB_CONNECTION_STRING || "");
 
 export default db;
 `;
