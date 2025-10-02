@@ -68,48 +68,48 @@ export const generateGoGin = (dirPath: string, openApiSpec?: OpenApiSpec) => {
     routerGroups += `\n\t// ${
       groupName.charAt(0).toUpperCase() + groupName.slice(1)
     } routes\n`;
-    routerGroups += `\t${groupVar} := server.Group("/")\n`;
+    routerGroups += `\t${groupVar} := server.Group("/${groupName}")\n`;
 
     // Standard CRUD endpoints
     const endpoints = [
       {
         method: "GET",
-        path: `/${groupName}`,
+        path: `/`,
         description: `Get all ${groupName}`,
       },
       {
         method: "POST",
-        path: `/${groupName}`,
+        path: `/`,
         description: `Create ${singular}`,
       },
       {
         method: "PUT",
-        path: `/${groupName}`,
+        path: `/`,
         description: `Upsert ${singular}`,
       },
       {
         method: "GET",
-        path: `/${groupName}/:id`,
+        path: `/:id`,
         description: `Get ${singular} by ID`,
       },
       {
         method: "PATCH",
-        path: `/${groupName}/:id`,
+        path: `/:id`,
         description: `Update ${singular}`,
       },
       {
         method: "GET",
-        path: `/${groupName}/:id/preferences`,
+        path: `/:id/preferences`,
         description: `Get ${singular} preferences`,
       },
       {
         method: "POST",
-        path: `/${groupName}/:id/preferences`,
+        path: `/:id/preferences`,
         description: `Create ${singular} preferences`,
       },
       {
         method: "PUT",
-        path: `/${groupName}/:id/preferences`,
+        path: `/:id/preferences`,
         description: `Update ${singular} preferences`,
       },
     ];
