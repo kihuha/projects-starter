@@ -10,6 +10,8 @@ export const generateGoGin = (dirPath: string, openApiSpec?: OpenApiSpec) => {
     openApiSpec ? openApiSpec.info.title : "generated-api"
   ).replaceAll(/\s/g, "_");
 
+  const deps = "github.com/gin-gonic/gin";
+
   // Generate router groups
   let routerGroups = "";
 
@@ -131,7 +133,7 @@ export const generateGoGin = (dirPath: string, openApiSpec?: OpenApiSpec) => {
 
   fs.writeFileSync(
     path.resolve(dirPath, "README.md"),
-    goReadmeFile(projectName),
+    goReadmeFile(deps, openApiSpec),
     "utf-8"
   );
 

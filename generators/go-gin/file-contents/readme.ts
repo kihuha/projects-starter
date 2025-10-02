@@ -5,6 +5,7 @@ export const goReadmeFile = (deps: string, openApiSpec?: OpenApiSpec) => `
 
 ${openApiSpec ? openApiSpec.info.description : "<add description here>"}
 
+
 ## Getting Started
 
 1. Install dependencies:
@@ -17,6 +18,6 @@ Before starting the project, be sure to:
 
   - install deps
     \`\`\`bash
-    go get -U ${deps}
+    go get -u ${deps}
     \`\`\`
 `;
