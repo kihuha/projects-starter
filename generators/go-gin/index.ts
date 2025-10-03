@@ -6,6 +6,7 @@ import {
   generateModuleService,
   getPathMapping,
 } from "./file-contents/services";
+import { goDbContent } from "./file-contents/db";
 
 import { OpenApiSpec, PathItemObject } from "../../types";
 
@@ -84,4 +85,9 @@ export const generateGoGin = (dirPath: string, openApiSpec?: OpenApiSpec) => {
 
   // directory for the utils
   fs.mkdirSync(path.resolve(dirPath, "utils"), { recursive: true });
+  fs.writeFileSync(
+    path.resolve(dirPath, "utils/db.go"),
+    goDbContent(),
+    "utf-8"
+  );
 };

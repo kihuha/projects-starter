@@ -7,11 +7,17 @@ export const goMainContent = (openApiSpec: OpenApiSpec) => {
 
 import (
 	"net/http"
+	"log"
 
 	"github.com/gin-gonic/gin"
+	"./utils"
 )
 
 func main() {
+	// Initialize database
+	utils.InitDB()
+	defer utils.CloseDB()
+
 	server := gin.Default()
 
 	server.GET("/", GetRoot)
@@ -83,12 +89,18 @@ func GetRoot(c *gin.Context) {
 
 import (
 	"net/http"
+	"log"
 
 	"github.com/gin-gonic/gin"
+	"./utils"
 ${serviceImports}
 )
 
 func main() {
+	// Initialize database
+	utils.InitDB()
+	defer utils.CloseDB()
+
 	server := gin.Default()
 
 	server.GET("/", GetRoot)
