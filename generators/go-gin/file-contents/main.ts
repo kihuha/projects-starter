@@ -1,4 +1,5 @@
 import { OpenApiSpec, PathItemObject } from "../../../types";
+import { generateFunctionName } from "./services";
 
 export const goMainContent = (openApiSpec: OpenApiSpec) => {
   if (!openApiSpec.paths) {
@@ -13,13 +14,16 @@ import (
 func main() {
 	server := gin.Default()
 
-	server.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello there",
-		})
-	})
+	server.GET("/", GetRoot)
 	
 	server.Run()
+}
+
+// Root handler
+func GetRoot(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello there",
+	})
 }
 `;
   }
@@ -48,6 +52,11 @@ func main() {
     });
   });
 
+  // Generate import statements for service packages
+  const serviceImports = Object.keys(pathMap)
+    .map((group) => `\t"./services/${group}Service"`)
+    .join("\n");
+
   const groupsCode = Object.entries(pathMap)
     .map(([group, paths]) => {
       const groupVar = `${group}Group`;
@@ -58,11 +67,10 @@ func main() {
           const routePath = url.replace(`/${group}`, "") || "/";
           return methods.map((method) => {
             const ginMethod = method.toUpperCase();
-            return `\t${groupVar}.${ginMethod}("${routePath}", func(c *gin.Context) {
-\t\tc.JSON(200, gin.H{
-\t\t\t"message": "not implemented",
-\t\t})
-\t})`;
+            const functionName = generateFunctionName(method, group, routePath);
+            const servicePackage = `${group}Service`;
+
+            return `\t${groupVar}.${ginMethod}("${routePath}", ${servicePackage}.${functionName})`;
           });
         })
         .join("\n");
@@ -77,21 +85,25 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+${serviceImports}
 )
 
 func main() {
 	server := gin.Default()
 
-	server.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello there",
-		})
-	})
+	server.GET("/", GetRoot)
 
 	// API routes
 ${groupsCode}
 	
 	server.Run()
+}
+
+// Root handler
+func GetRoot(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello there",
+	})
 }
 `;
 };

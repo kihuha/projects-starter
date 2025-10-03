@@ -2,6 +2,10 @@ import fs from "fs";
 import path from "path";
 import { goMainContent } from "./file-contents/main";
 import { goReadmeFile } from "./file-contents/readme";
+import {
+  generateModuleService,
+  getPathMapping,
+} from "./file-contents/services";
 
 import { OpenApiSpec, PathItemObject } from "../../types";
 
@@ -34,11 +38,42 @@ export const generateGoGin = (dirPath: string, openApiSpec?: OpenApiSpec) => {
       });
     });
 
+    // Generate main.go with service function calls
     fs.writeFileSync(
       path.resolve(dirPath, "main.go"),
       goMainContent(openApiSpec),
       "utf-8"
     );
+
+    // Create services directory
+    const servicesDir = path.resolve(dirPath, "services");
+    fs.mkdirSync(servicesDir, { recursive: true });
+
+    // Get path mapping for services
+    const servicePathMap = getPathMapping(openApiSpec);
+
+    // Generate individual service files for each module
+    Object.entries(servicePathMap).forEach(([module, paths]) => {
+      const serviceFileName = `${module}Service.go`;
+      const serviceFilePath = path.resolve(servicesDir, serviceFileName);
+
+      fs.writeFileSync(
+        serviceFilePath,
+        generateModuleService(module, paths),
+        "utf-8"
+      );
+    });
+  } else {
+    // No spec provided, generate basic files
+    fs.writeFileSync(
+      path.resolve(dirPath, "main.go"),
+      goMainContent({} as OpenApiSpec),
+      "utf-8"
+    );
+
+    // Create services directory even for basic setup
+    const servicesDir = path.resolve(dirPath, "services");
+    fs.mkdirSync(servicesDir, { recursive: true });
   }
 
   fs.writeFileSync(
