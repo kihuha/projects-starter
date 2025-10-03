@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node dist/script.js",
-    "dev": "ts-node script.ts"
+    "dev": "ts-node go-gen.ts"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
